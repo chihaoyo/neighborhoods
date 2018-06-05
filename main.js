@@ -1,16 +1,21 @@
-const hoods = require('./20170131-raw.json')
-var cities = [...new Set(hoods.map(hood => hood.city_name))]
+const sourceFilePath = './20170131-raw.json'
+const colCity = 'city_name'
+const colDistrict = 'district_name'
+const colNeighborhood = 'neighborhood_name'
+
+const hoods = require(sourceFilePath)
+var cities = [...new Set(hoods.map(hood => hood[colCity]))]
 
 var districts = cities.map(city => ({
   city_name: city,
-  districts: [...new Set(hoods.filter(hood => hood.city_name === city).map(hood => hood.district_name))]
+  districts: [...new Set(hoods.filter(hood => hood[colCity] === city).map(hood => hood[colDistrict]))]
 }))
 
 var neighborhoods = districts.map(cityObj => ({
   city_name: cityObj.city_name,
   districts: cityObj.districts.map(districtName => ({
     district_name: districtName,
-    neighborhoods: hoods.filter(hood => hood.city_name === cityObj.city_name && hood.district_name === districtName).map(hood => hood.neighborhood_name)
+    neighborhoods: hoods.filter(hood => hood[colCity] === cityObj.city_name && hood[colDistrict] === districtName).map(hood => hood[colNeighborhood])
   }))
 }))
 
