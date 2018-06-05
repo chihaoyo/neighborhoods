@@ -1,9 +1,10 @@
-const sourceFilePath = './20170131-raw.json'
-const colCity = 'city_name'
-const colDistrict = 'district_name'
-const colNeighborhood = 'neighborhood_name'
+const sourceFilePath = './20180205-raw.json'
+const rowsArrayProp = 'RowDataList'
+const colCity = 'COUNTY'
+const colDistrict = 'TOWN'
+const colNeighborhood = 'VILLAGE'
 
-const hoods = require(sourceFilePath)
+const hoods = require(sourceFilePath)[rowsArrayProp]
 var cities = [...new Set(hoods.map(hood => hood[colCity]))]
 
 var districts = cities.map(city => ({
